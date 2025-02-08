@@ -2,21 +2,21 @@
 
 A robust Python script designed to automate the download of large Google Takeout exports split across multiple files.
 
-## ?? Features
+## Features
 
-- ?? Batch download of multiple Takeout files
-- ?? Seamless progress tracking
-- ?? Ability to resume downloads from last completed file
-- ??? Comprehensive error handling
-- ?? Cross-platform compatibility (tested on WSL Ubuntu)
+- Batch download of multiple Takeout files
+- Seamless progress tracking
+- Ability to resume downloads from last completed file
+- Comprehensive error handling
+- Cross-platform compatibility (tested on WSL Ubuntu)
 
-## ?? Prerequisites
+## Prerequisites
 
 - Python 3.7+
 - `requests` library
 - Active Google Takeout export
 
-## ??? Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -44,7 +44,7 @@ pip install -r requirements.txt
 chmod +x download_takeout.py
 ```
 
-## ?? Configuration
+## Configuration
 
 ### 1. Obtain Download URL
 
@@ -60,7 +60,7 @@ chmod +x download_takeout.py
 
 Paste the copied cURL command into `curl.txt` in the project directory.
 
-## ?? Usage
+## Usage
 
 ### Basic Download
 
@@ -83,7 +83,7 @@ Paste the copied cURL command into `curl.txt` in the project directory.
 ./download_takeout.py -s 1 -e 10 -d /path/to/output
 ```
 
-## ?? Command Line Options
+## Command Line Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -94,7 +94,7 @@ Paste the copied cURL command into `curl.txt` in the project directory.
 | `--continue` | Resume from last file | False |
 | `-h, --help` | Show help message | - |
 
-## ?? Output Format
+## Output Format
 
 Files are saved with a timestamp-based naming convention:
 ```
@@ -102,14 +102,14 @@ takeout-YYYYMMDDTHHMMSSZ-NNN.zip
 ```
 Example: `takeout-20250206T053943Z-016.zip`
 
-## ?? Troubleshooting
+## Troubleshooting
 
 - Ensure browser cookies and RAPT token are current
 - Check network connectivity
 - Verify Google Takeout export is complete
 - Refresh download URL if authentication fails
 
-## ?? Contributing
+## Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -117,11 +117,11 @@ Example: `takeout-20250206T053943Z-016.zip`
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## ?? License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## ?? Contact
+## Contact
 
 Your Name - your.email@example.com
 

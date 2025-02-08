@@ -18,14 +18,7 @@ A robust Python script designed to automate the download of large Google Takeout
 
 ## Installation
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/google-takeout-downloader.git
-cd google-takeout-downloader
-```
-
-### 2. Set Up Virtual Environment (Recommended)
+### Set Up Virtual Environment (Recommended)
 
 ```bash
 # Create virtual environment
@@ -38,7 +31,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Make Script Executable
+### Make Script Executable
 
 ```bash
 chmod +x download_takeout.py
@@ -111,11 +104,10 @@ Example: `takeout-20250206T053943Z-016.zip`
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+2. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+3. Push to branch (`git push origin feature/AmazingFeature`)
+4. Open a Pull Request
 
 ## License
 

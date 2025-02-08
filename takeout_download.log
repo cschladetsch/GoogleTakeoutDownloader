@@ -1,0 +1,28 @@
+2025-02-08 19:37:11,090 - INFO - ====== WebDriver manager ======
+2025-02-08 19:37:11,201 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:11,368 - INFO - About to download new driver from https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+2025-02-08 19:37:11,664 - INFO - Driver downloading response is 200
+2025-02-08 19:37:12,726 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:12,982 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:13,171 - INFO - Driver has been saved in cache [/home/xian/.wdm/drivers/chromedriver/linux64/114.0.5735.90]
+2025-02-08 19:37:26,308 - INFO - ====== WebDriver manager ======
+2025-02-08 19:37:26,423 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:26,559 - INFO - About to download new driver from https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+2025-02-08 19:37:26,690 - INFO - Driver downloading response is 200
+2025-02-08 19:37:27,167 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:27,431 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:27,616 - INFO - Driver has been saved in cache [/home/xian/.wdm/drivers/chromedriver/linux64/114.0.5735.90]
+2025-02-08 19:37:57,748 - INFO - ====== WebDriver manager ======
+2025-02-08 19:37:57,860 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:57,993 - INFO - About to download new driver from https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+2025-02-08 19:37:58,115 - INFO - Driver downloading response is 200
+2025-02-08 19:37:58,553 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:58,813 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:37:59,009 - INFO - Driver has been saved in cache [/home/xian/.wdm/drivers/chromedriver/linux64/114.0.5735.90]
+2025-02-08 19:38:20,174 - INFO - ====== WebDriver manager ======
+2025-02-08 19:38:20,284 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:38:20,423 - INFO - About to download new driver from https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+2025-02-08 19:38:20,559 - INFO - Driver downloading response is 200
+2025-02-08 19:38:20,960 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:38:21,210 - INFO - Get LATEST chromedriver version for google-chrome
+2025-02-08 19:38:21,391 - INFO - Driver has been saved in cache [/home/xian/.wdm/drivers/chromedriver/linux64/114.0.5735.90]

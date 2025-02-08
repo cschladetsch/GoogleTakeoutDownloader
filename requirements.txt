@@ -1,5 +1,21 @@
+# Core Dependencies
 requests>=2.25.0
 selenium>=4.10.0
-webdriver-manager>=3.8.6
+webdriver-manager>=4.0.0
+
+# Security and Credential Management
+keyring>=24.0.0
+pyotp>=2.8.0
+
+# Logging and Error Handling
+structlog>=23.1.0
+
+# Optional: For more robust HTTP requests
+urllib3>=2.0.0
+
+# Development and Testing
+pytest>=7.3.0
+pytest-selenium>=4.0.0
+coverage>=7.2.0
 
 # Path: requirements.txt

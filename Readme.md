@@ -1,94 +1,83 @@
 # Google Takeout Batch Downloader
 
-A robust Python script designed to automate the download of large Google Takeout exports split across multiple files.
+## Overview
+
+A comprehensive, secure Python solution for automating the download of large Google Takeout exports across multiple files.
 
 ## Features
 
-- Automatic batch download of multiple Takeout files
-- Seamless progress tracking
-- Ability to resume downloads from last completed file
+- Batch download of multiple Takeout files
+- Secure credential management
 - Automatic authentication token refresh
-- Comprehensive error handling
-- Cross-platform compatibility (tested on Linux/WSL)
+- Detailed logging and error handling
+- Two-factor authentication support
+- Resumable downloads
 
-## Prerequisites
+## System Requirements
 
-- Python 3.7+
+### Hardware & Software
+- Python 3.8+
 - Chrome or Chromium browser
 - Selenium WebDriver
 - Active Google Takeout export
 
-## Installation
-
-### System Dependencies
-
-Before installation, ensure you have the following system packages:
-
+### Required System Packages
 ```bash
-# Update package lists
 sudo apt update
-
-# Install required system packages
 sudo apt install -y \
     python3-venv \
     python3-pip \
     chromium-chromedriver \
-    chromium-browser
+    chromium-browser \
+    python3-selenium
 ```
 
-### Virtual Environment Setup (Recommended)
+## Installation
 
-1. Create a virtual environment:
+### 1. Clone Repository
 ```bash
-# Create virtual environment
+git clone https://github.com/yourusername/google-takeout-downloader.git
+cd google-takeout-downloader
+```
+
+### 2. Create Virtual Environment
+```bash
+# Create and activate virtual environment
 python3 -m venv venv
-
-# Activate the virtual environment
 source venv/bin/activate
-```
 
-2. Install Python dependencies:
-```bash
-# Install required Python packages
+# Upgrade pip
+pip install --upgrade pip
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Configuration
+## Configuration
 
-1. Copy the secrets template:
+### Initial Setup
 ```bash
-cp secrets.json.example secrets.json
+# Run configuration wizard
+python configure_secrets.py
 ```
 
-2. Edit `secrets.json` with your Google account details:
-- Add your Google email
-- Add your Google password
-- Configure download preferences
+The configuration wizard will:
+- Validate existing configuration
+- Securely prompt for missing information
+- Store credentials using system keyring
+- Support optional two-factor authentication
 
-### Make Scripts Executable
-
-```bash
-chmod +x download_takeout.py token_retriever.py
-```
-
-## Authentication
-
-### Initial Token Retrieval
-
-Before first use, retrieve the initial download token:
-
-```bash
-# Activate virtual environment (if not already active)
-source venv/bin/activate
-
-# Retrieve download token
-python3 token_retriever.py
-```
+### Configuration Options
+- Google account email
+- Secure password storage
+- Two-factor authentication secret (optional)
+- Download output directory
+- Download delay between files
+- Logging preferences
 
 ## Usage
 
 ### Basic Download
-
 ```bash
 # Activate virtual environment
 source venv/bin/activate
@@ -98,14 +87,12 @@ source venv/bin/activate
 ```
 
 ### Continue Previous Download
-
 ```bash
 # Resume from last downloaded file
 ./download_takeout.py --continue
 ```
 
 ### Custom Output Directory
-
 ```bash
 # Specify a different download location
 ./download_takeout.py -s 1 -e 10 -d /path/to/output
@@ -122,42 +109,62 @@ source venv/bin/activate
 | `--continue` | Resume from last file | False |
 | `-h, --help` | Show help message | - |
 
+## Advanced Features
+
+### Token Retrieval
+```bash
+# Manually refresh download token
+python token_retriever.py
+```
+
+### Logging
+- Logs saved to `takeout_download.log`
+- Configurable log levels in `secrets.json`
+
 ## Troubleshooting
 
-### Authentication Issues
-- Verify Google account credentials in `secrets.json`
-- Ensure two-factor authentication is handled
+### Common Issues
+- Verify Google account credentials
 - Check network connectivity
-- Verify Chrome/Chromium browser is installed
+- Ensure sufficient disk space
+- Update Chrome/Chromium WebDriver
 
-### Download Failures
-- Confirm sufficient disk space
-- Check internet connection stability
-- Review `takeout_download.log` for detailed errors
+### Authentication Failures
+- Two-factor authentication support
+- Automatic token refresh
+- Detailed error logging
 
 ## Security Considerations
 
-- Never commit `secrets.json` to version control
-- Use environment variables for sensitive information in production
-- Regularly rotate Google account credentials
-- Be aware of Google's terms of service
+- Credentials stored securely
+- No direct storage of plain-text passwords
+- Support for system keyring
+- Configurable logging
+
+## Testing
+
+### Run Tests
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Run tests
+pytest
+```
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for details.
 
 ## Disclaimer
 
 This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.
 
----
-
-**Note**: Always ensure you have the right to download and use the data from Google Takeout.

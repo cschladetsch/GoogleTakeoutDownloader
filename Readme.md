@@ -32,47 +32,49 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Configure Secrets
+
+1. Copy the `secrets.json.example` to `secrets.json`
+```bash
+cp secrets.json.example secrets.json
+```
+
+2. Edit `secrets.json` with your configuration:
+- Add your Google account details
+- Configure download preferences
+- Set up optional proxy settings if needed
+
 ### Make Script Executable
 
 ```bash
 chmod +x download_takeout.py
 ```
 
-## Authentication and Token Management
+## Secrets Configuration
 
-### Common Authentication Issues
+The `secrets.json` file contains several configuration sections:
 
-Google Takeout uses short-lived authentication tokens. If you encounter an authentication error (typically "Got HTML instead of file"), you'll need to refresh the download URL.
+### Google Takeout Settings
+- `email`: Your Google account email
+- `password`: Your Google account password
+- `max_files`: Maximum number of files to download
+- `output_directory`: Where downloaded files will be saved
+- `download_delay`: Seconds between downloads
 
-### Obtaining a New Authentication Token
+### Authentication
+- `rapt_token`: Current authentication token
+- `job_id`: Google Takeout job identifier
+- `last_downloaded_index`: Tracking for resume functionality
 
-1. Open Google Takeout in your browser
-2. Ensure you are logged into the correct Google account
-3. Navigate to your current export
-4. Open browser's Developer Tools (F12)
-5. Go to the Network tab
-6. Click the "Download" button
-7. Find the request to `takeout.google.com/settings/takeout/download`
-8. Right-click and choose "Copy as cURL (bash)"
+### Advanced Options
+- Proxy configuration
+- Logging settings
+- Optional credential encryption
 
-### Updating `curl.txt`
-
-```bash
-# Update curl.txt with the new authentication token
-cat > curl.txt
-# Paste the entire copied cURL command
-# Press Ctrl+D when finished
-```
-
-### Troubleshooting Authentication
-
-- Verify you're logged into the correct Google account
-- Ensure your Google Takeout export is still active
-- Check that you have permission to download the files
-- If persistent issues occur, try:
-  - Logging out and back into Google
-  - Clearing browser cookies
-  - Regenerating the Google Takeout export
+### Security Recommendations
+- Do NOT commit `secrets.json` to version control
+- Use environment variables or secure credential management in production
+- Consider encrypting sensitive information
 
 ## Usage
 
@@ -108,22 +110,20 @@ cat > curl.txt
 | `--continue` | Resume from last file | False |
 | `-h, --help` | Show help message | - |
 
-## Output Format
-
-Files are saved with a timestamp-based naming convention:
-```
-takeout-YYYYMMDDTHHMMSSZ-NNN.zip
-```
-Example: `takeout-20250206T053943Z-016.zip`
-
 ## Troubleshooting
 
-- Ensure browser cookies and RAPT token are current
+- Ensure `secrets.json` is correctly configured
+- Verify browser cookies and RAPT token are current
 - Check network connectivity
-- Verify Google Takeout export is complete
-- Refresh download URL if authentication fails
 - Ensure you have sufficient disk space
-- Check internet connection stability
+- Confirm internet connection stability
+
+## Security Notes
+
+- Keep `secrets.json` private
+- Use `.gitignore` to prevent accidental commits
+- Consider using environment variables for sensitive data
+- Implement credential rotation and secure storage
 
 ## Contributing
 
@@ -136,3 +136,12 @@ Example: `takeout-20250206T053943Z-016.zip`
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
+## Contact
+
+Your Name - your.email@example.com
+
+Project Link: [https://github.com/yourusername/google-takeout-downloader](https://github.com/yourusername/google-takeout-downloader)
+
+---
+
+**Disclaimer**: This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.

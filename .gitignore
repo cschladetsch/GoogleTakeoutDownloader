@@ -40,3 +40,4 @@ secrets.json
 .env
 
 # Path: .gitignore
+curl.txt

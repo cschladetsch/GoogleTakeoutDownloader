@@ -36,7 +36,7 @@ sudo apt install -y \
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/google-takeout-downloader.git
+git clone https://github.com/cschladetsch/google-takeout-downloader.git
 cd google-takeout-downloader
 ```
 

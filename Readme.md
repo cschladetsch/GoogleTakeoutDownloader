@@ -15,6 +15,7 @@ A robust Python script designed to automate the download of large Google Takeout
 - Python 3.7+
 - `requests` library
 - Active Google Takeout export
+- Modern web browser
 
 ## Installation
 
@@ -37,21 +38,41 @@ pip install -r requirements.txt
 chmod +x download_takeout.py
 ```
 
-## Configuration
+## Authentication and Token Management
 
-### 1. Obtain Download URL
+### Common Authentication Issues
+
+Google Takeout uses short-lived authentication tokens. If you encounter an authentication error (typically "Got HTML instead of file"), you'll need to refresh the download URL.
+
+### Obtaining a New Authentication Token
 
 1. Open Google Takeout in your browser
-2. Navigate to your export
-3. Open browser's Developer Tools (F12)
-4. Go to Network tab
-5. Click "Download"
-6. Find request to `takeout.google.com/settings/takeout/download`
-7. Right-click and "Copy as cURL (bash)"
+2. Ensure you are logged into the correct Google account
+3. Navigate to your current export
+4. Open browser's Developer Tools (F12)
+5. Go to the Network tab
+6. Click the "Download" button
+7. Find the request to `takeout.google.com/settings/takeout/download`
+8. Right-click and choose "Copy as cURL (bash)"
 
-### 2. Prepare `curl.txt`
+### Updating `curl.txt`
 
-Paste the copied cURL command into `curl.txt` in the project directory.
+```bash
+# Update curl.txt with the new authentication token
+cat > curl.txt
+# Paste the entire copied cURL command
+# Press Ctrl+D when finished
+```
+
+### Troubleshooting Authentication
+
+- Verify you're logged into the correct Google account
+- Ensure your Google Takeout export is still active
+- Check that you have permission to download the files
+- If persistent issues occur, try:
+  - Logging out and back into Google
+  - Clearing browser cookies
+  - Regenerating the Google Takeout export
 
 ## Usage
 
@@ -101,6 +122,8 @@ Example: `takeout-20250206T053943Z-016.zip`
 - Check network connectivity
 - Verify Google Takeout export is complete
 - Refresh download URL if authentication fails
+- Ensure you have sufficient disk space
+- Check internet connection stability
 
 ## Contributing
 

@@ -14,18 +14,58 @@ A Python script to automate downloading multiple Google Takeout files in sequenc
 ## Prerequisites
 
 - Python 3.x
-- `requests` library
 - WSL Ubuntu (for accessing Windows paths like `/mnt/f/`)
+- python3-full (for virtual environment support)
 
 ## Installation
 
-1. Install the required Python package:
+You have several options for installation:
+
+### Option 1: Using a Virtual Environment (Recommended)
+
+1. Install Python virtual environment support:
 ```bash
-pip3 install requests
+sudo apt install python3-full
 ```
 
-2. Clone or download this repository
-3. Make the script executable:
+2. Create a virtual environment:
+```bash
+python3 -m venv venv
+```
+
+3. Activate the virtual environment:
+```bash
+source venv/bin/activate
+```
+
+4. Install the required package:
+```bash
+pip install requests
+```
+
+### Option 2: Using pipx
+
+1. Install pipx:
+```bash
+sudo apt install pipx
+```
+
+2. Install the requests package:
+```bash
+pipx install requests
+```
+
+### Option 3: Using System Packages
+
+Install the Python requests package directly through apt:
+```bash
+sudo apt install python3-requests
+```
+
+After choosing an installation method:
+
+1. Clone or download this repository
+2. Make the script executable:
 ```bash
 chmod +x download_takeout.py
 ```
@@ -51,6 +91,11 @@ MAX_FILES = 277  # Set to your total number of files
 ```
 
 ## Usage
+
+If you're using a virtual environment, make sure to activate it first:
+```bash
+source venv/bin/activate
+```
 
 ### Basic Usage
 
@@ -104,6 +149,7 @@ Example: `takeout-20250206T053943Z-016.zip`
 - Downloads are saved with timestamps in the filename
 - The script includes error handling and will skip failed downloads
 - URLs expire after some time - if downloads fail, you may need to get a new URL from Google Takeout and update the job_id
+- If using a virtual environment, remember to activate it before running the script
 
 ## Error Handling
 

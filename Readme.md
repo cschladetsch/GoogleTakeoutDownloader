@@ -4,83 +4,95 @@ A robust Python script designed to automate the download of large Google Takeout
 
 ## Features
 
-- Batch download of multiple Takeout files
+- Automatic batch download of multiple Takeout files
 - Seamless progress tracking
 - Ability to resume downloads from last completed file
+- Automatic authentication token refresh
 - Comprehensive error handling
-- Cross-platform compatibility (tested on WSL Ubuntu)
+- Cross-platform compatibility (tested on Linux/WSL)
 
 ## Prerequisites
 
 - Python 3.7+
-- `requests` library
+- Chrome or Chromium browser
+- Selenium WebDriver
 - Active Google Takeout export
-- Modern web browser
 
 ## Installation
 
-### Set Up Virtual Environment (Recommended)
+### System Dependencies
 
+Before installation, ensure you have the following system packages:
+
+```bash
+# Update package lists
+sudo apt update
+
+# Install required system packages
+sudo apt install -y \
+    python3-venv \
+    python3-pip \
+    chromium-chromedriver \
+    chromium-browser
+```
+
+### Virtual Environment Setup (Recommended)
+
+1. Create a virtual environment:
 ```bash
 # Create virtual environment
 python3 -m venv venv
 
-# Activate virtual environment
+# Activate the virtual environment
 source venv/bin/activate
+```
 
-# Install dependencies
+2. Install Python dependencies:
+```bash
+# Install required Python packages
 pip install -r requirements.txt
 ```
 
-### Configure Secrets
+### Configuration
 
-1. Copy the `secrets.json.example` to `secrets.json`
+1. Copy the secrets template:
 ```bash
 cp secrets.json.example secrets.json
 ```
 
-2. Edit `secrets.json` with your configuration:
-- Add your Google account details
+2. Edit `secrets.json` with your Google account details:
+- Add your Google email
+- Add your Google password
 - Configure download preferences
-- Set up optional proxy settings if needed
 
-### Make Script Executable
+### Make Scripts Executable
 
 ```bash
-chmod +x download_takeout.py
+chmod +x download_takeout.py token_retriever.py
 ```
 
-## Secrets Configuration
+## Authentication
 
-The `secrets.json` file contains several configuration sections:
+### Initial Token Retrieval
 
-### Google Takeout Settings
-- `email`: Your Google account email
-- `password`: Your Google account password
-- `max_files`: Maximum number of files to download
-- `output_directory`: Where downloaded files will be saved
-- `download_delay`: Seconds between downloads
+Before first use, retrieve the initial download token:
 
-### Authentication
-- `rapt_token`: Current authentication token
-- `job_id`: Google Takeout job identifier
-- `last_downloaded_index`: Tracking for resume functionality
+```bash
+# Activate virtual environment (if not already active)
+source venv/bin/activate
 
-### Advanced Options
-- Proxy configuration
-- Logging settings
-- Optional credential encryption
-
-### Security Recommendations
-- Do NOT commit `secrets.json` to version control
-- Use environment variables or secure credential management in production
-- Consider encrypting sensitive information
+# Retrieve download token
+python3 token_retriever.py
+```
 
 ## Usage
 
 ### Basic Download
 
 ```bash
+# Activate virtual environment
+source venv/bin/activate
+
 # Download files from index 1 to 10
 ./download_takeout.py -s 1 -e 10
 ```
@@ -112,36 +124,40 @@ The `secrets.json` file contains several configuration sections:
 
 ## Troubleshooting
 
-- Ensure `secrets.json` is correctly configured
-- Verify browser cookies and RAPT token are current
+### Authentication Issues
+- Verify Google account credentials in `secrets.json`
+- Ensure two-factor authentication is handled
 - Check network connectivity
-- Ensure you have sufficient disk space
-- Confirm internet connection stability
+- Verify Chrome/Chromium browser is installed
 
-## Security Notes
+### Download Failures
+- Confirm sufficient disk space
+- Check internet connection stability
+- Review `takeout_download.log` for detailed errors
 
-- Keep `secrets.json` private
-- Use `.gitignore` to prevent accidental commits
-- Consider using environment variables for sensitive data
-- Implement credential rotation and secure storage
+## Security Considerations
+
+- Never commit `secrets.json` to version control
+- Use environment variables for sensitive information in production
+- Regularly rotate Google account credentials
+- Be aware of Google's terms of service
 
 ## Contributing
 
-1. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-2. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-3. Push to branch (`git push origin feature/AmazingFeature`)
-4. Open a Pull Request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contact
+## Disclaimer
 
-Your Name - your.email@example.com
-
-Project Link: [https://github.com/yourusername/google-takeout-downloader](https://github.com/yourusername/google-takeout-downloader)
+This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.
 
 ---
 
-**Disclaimer**: This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.
+**Note**: Always ensure you have the right to download and use the data from Google Takeout.

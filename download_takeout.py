@@ -6,6 +6,29 @@ import time
 import re
 from pathlib import Path
 from datetime import datetime
+import json
+import subprocess
+import logging
+
+def refresh_download_token():
+    """
+    Attempt to refresh the download token using token_retriever.py
+    
+    :return: Boolean indicating success or failure
+    """
+    try:
+        # Run token retriever script
+        result = subprocess.run(
+            ['python3', 'token_retriever.py'], 
+            capture_output=True, 
+            text=True, 
+            check=True
+        )
+        logging.info("Download token successfully refreshed")
+        return True
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Token refresh failed: {e.stderr}")
+        return False
 
 def create_url(index, job_id, rapt):
     """Create download URL with exact working format."""
@@ -40,20 +63,43 @@ def parse_curl(curl_text):
     return headers, cookies, rapt_match.group(1)
 
 def main():
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO, 
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
+    # Read secrets configuration
+    try:
+        with open('secrets.json', 'r') as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        logging.error("secrets.json not found")
+        return 1
+
     # Read curl command
     if not os.path.exists('curl.txt'):
-        print("Save the download request as curl command to curl.txt")
-        print("1. Press F12 in Edge")
-        print("2. Find request with download=true")
-        print("3. Copy as cURL (bash)")
-        return 1
+        logging.error("curl.txt not found. Attempting to retrieve new token.")
+        if not refresh_download_token():
+            logging.error("Failed to retrieve new download token")
+            return 1
 
     try:
         with open('curl.txt') as f:
             headers, cookies, rapt = parse_curl(f.read())
-    except ValueError as e:
-        print(f"Error: {e}")
-        return 1
+    except (ValueError, IOError) as e:
+        logging.error(f"Error parsing curl.txt: {e}")
+        if not refresh_download_token():
+            logging.error("Failed to retrieve new download token after parsing error")
+            return 1
+        
+        # Retry parsing after token refresh
+        try:
+            with open('curl.txt') as f:
+                headers, cookies, rapt = parse_curl(f.read())
+        except Exception as e:
+            logging.error(f"Persistent error parsing curl.txt: {e}")
+            return 1
 
     # Setup session
     session = requests.Session()
@@ -62,21 +108,20 @@ def main():
     session.timeout = 30  # 30 second timeout
 
     # Create output directory
-    outdir = Path('/mnt/f/GoogleTakeout')
+    outdir = Path(config['google_takeout'].get('output_directory', '/mnt/f/GoogleTakeout'))
     outdir.mkdir(parents=True, exist_ok=True)
 
     # Find last downloaded file
-    start = 0
-    for file in outdir.glob('takeout-*-*.zip'):
-        match = re.search(r'-(\d{3})\.zip$', file.name)
-        if match:
-            start = max(start, int(match.group(1)) + 1)
+    start = config['authentication'].get('last_downloaded_index', 0)
+    max_files = config['google_takeout'].get('max_files', 277)
 
     print(f"Starting from index {start}")
 
     # Download files
-    job_id = "aad05205-2695-41f5-a4d7-b92d9a095d5e"
-    for i in range(start, 278):
+    job_id = config['authentication'].get('job_id', 'unknown')
+    download_delay = config['google_takeout'].get('download_delay', 5)
+
+    for i in range(start, max_files):
         print(f"\nDownloading file {i}...")
         
         url = create_url(i, job_id, rapt)
@@ -89,11 +134,19 @@ def main():
 
             if response.status_code != 200:
                 print(f"Error: Status {response.status_code}")
-                return 1
-            
+                # Attempt to refresh token
+                if not refresh_download_token():
+                    print("Failed to refresh download token")
+                    return 1
+                continue
+
             if 'html' in response.headers.get('content-type', ''):
                 print("Error: Got HTML instead of file (auth failed)")
-                return 1
+                # Attempt to refresh token
+                if not refresh_download_token():
+                    print("Failed to refresh download token")
+                    return 1
+                continue
 
             # Create unique temp filename
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -120,6 +173,11 @@ def main():
                     
                 tmpfile.rename(outfile)
                 
+                # Update last downloaded index
+                config['authentication']['last_downloaded_index'] = i + 1
+                with open('secrets.json', 'w') as f:
+                    json.dump(config, f, indent=4)
+                
             except:
                 if tmpfile.exists():
                     tmpfile.unlink()
@@ -132,12 +190,12 @@ def main():
             print(f"Error: {e}")
             return 1
             
-        print("Waiting 5 seconds...")
-        time.sleep(5)
+        print(f"Waiting {download_delay} seconds...")
+        time.sleep(download_delay)
     
     return 0
 
 if __name__ == "__main__":
     exit(main())
 
-# File: download_takeout.py
+# Path: download_takeout.py

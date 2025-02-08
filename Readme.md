@@ -1,163 +1,132 @@
 # Google Takeout Batch Downloader
 
-A Python script to automate downloading multiple Google Takeout files in sequence. Useful when you have a large Google Takeout export split across many files.
+A robust Python script designed to automate the download of large Google Takeout exports split across multiple files.
 
-## Features
+## ?? Features
 
-- Download multiple Takeout files sequentially
-- Continue from last downloaded file
-- Customizable delay between downloads
-- Progress tracking
-- Handles Google Takeout's standard filename format
-- Supports WSL Ubuntu environment
+- ?? Batch download of multiple Takeout files
+- ?? Seamless progress tracking
+- ?? Ability to resume downloads from last completed file
+- ??? Comprehensive error handling
+- ?? Cross-platform compatibility (tested on WSL Ubuntu)
 
-## Prerequisites
+## ?? Prerequisites
 
-- Python 3.x
-- WSL Ubuntu (for accessing Windows paths like `/mnt/f/`)
-- python3-full (for virtual environment support)
+- Python 3.7+
+- `requests` library
+- Active Google Takeout export
 
-## Installation
+## ??? Installation
 
-You have several options for installation:
+### 1. Clone the Repository
 
-### Option 1: Using a Virtual Environment (Recommended)
-
-1. Install Python virtual environment support:
 ```bash
-sudo apt install python3-full
+git clone https://github.com/yourusername/google-takeout-downloader.git
+cd google-takeout-downloader
 ```
 
-2. Create a virtual environment:
+### 2. Set Up Virtual Environment (Recommended)
+
 ```bash
+# Create virtual environment
 python3 -m venv venv
-```
 
-3. Activate the virtual environment:
-```bash
+# Activate virtual environment
 source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-4. Install the required package:
-```bash
-pip install requests
-```
+### 3. Make Script Executable
 
-### Option 2: Using pipx
-
-1. Install pipx:
-```bash
-sudo apt install pipx
-```
-
-2. Install the requests package:
-```bash
-pipx install requests
-```
-
-### Option 3: Using System Packages
-
-Install the Python requests package directly through apt:
-```bash
-sudo apt install python3-requests
-```
-
-After choosing an installation method:
-
-1. Clone or download this repository
-2. Make the script executable:
 ```bash
 chmod +x download_takeout.py
 ```
 
-## Configuration
+## ?? Configuration
 
-Before using the script, you need to configure it for your Google account and Takeout URLs:
+### 1. Obtain Download URL
 
-1. Open one of your Google Takeout download URLs in a browser. It should look something like:
-```
-https://accounts.google.com/AccountChooser?continue=https://takeout.google.com/settings/takeout/download?j%3Daad05205-2695-41f5-a4d7-b92d9a095d5e%26i%3D52&Email=example@gmail.com
-```
+1. Open Google Takeout in your browser
+2. Navigate to your export
+3. Open browser's Developer Tools (F12)
+4. Go to Network tab
+5. Click "Download"
+6. Find request to `takeout.google.com/settings/takeout/download`
+7. Right-click and "Copy as cURL (bash)"
 
-2. Open `download_takeout.py` and modify these values in the `create_url()` function:
-```python
-job_id = "aad05205-2695-41f5-a4d7-b92d9a095d5e"  # Extract from your URL
-email = "example@gmail.com"  # Your Google email
-```
+### 2. Prepare `curl.txt`
 
-3. If your Takeout export has a different number of files, update:
-```python
-MAX_FILES = 277  # Set to your total number of files
-```
+Paste the copied cURL command into `curl.txt` in the project directory.
 
-## Usage
+## ?? Usage
 
-If you're using a virtual environment, make sure to activate it first:
+### Basic Download
+
 ```bash
-source venv/bin/activate
-```
-
-### Basic Usage
-
-Download a range of files:
-```bash
+# Download files from index 1 to 10
 ./download_takeout.py -s 1 -e 10
 ```
 
-### Continue from Last Download
+### Continue Previous Download
 
-To continue from where you left off:
 ```bash
+# Resume from last downloaded file
 ./download_takeout.py --continue
 ```
 
-### Specify Custom Directory
+### Custom Output Directory
 
-Use a different output directory:
 ```bash
-./download_takeout.py -s 1 -e 10 -d /path/to/custom/directory
+# Specify a different download location
+./download_takeout.py -s 1 -e 10 -d /path/to/output
 ```
 
-### Adjust Download Delay
+## ?? Command Line Options
 
-Change the waiting time between downloads:
-```bash
-./download_takeout.py -s 1 -e 10 --delay 10
-```
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-s, --start` | Starting file index | Required |
+| `-e, --end` | Ending file index | Required |
+| `-d, --directory` | Output directory | `/mnt/f/GoogleTakeout` |
+| `--delay` | Seconds between downloads | 5 |
+| `--continue` | Resume from last file | False |
+| `-h, --help` | Show help message | - |
 
-## Command Line Options
+## ?? Output Format
 
-- `-s, --start`: Starting index for download sequence
-- `-e, --end`: Ending index for download sequence (max 277)
-- `-d, --directory`: Output directory (default: /mnt/f/GoogleTakeout)
-- `--delay`: Delay in seconds between downloads (default: 5)
-- `--continue`: Continue from last downloaded file
-- `-h, --help`: Show help message
-
-## File Naming
-
-The script handles Google Takeout's standard file naming format:
+Files are saved with a timestamp-based naming convention:
 ```
 takeout-YYYYMMDDTHHMMSSZ-NNN.zip
 ```
 Example: `takeout-20250206T053943Z-016.zip`
 
-## Notes
+## ?? Troubleshooting
 
-- Maximum supported file index is configurable (default 277)
-- The script requires you to be logged into your Google account in your browser
-- Downloads are saved with timestamps in the filename
-- The script includes error handling and will skip failed downloads
-- URLs expire after some time - if downloads fail, you may need to get a new URL from Google Takeout and update the job_id
-- If using a virtual environment, remember to activate it before running the script
+- Ensure browser cookies and RAPT token are current
+- Check network connectivity
+- Verify Google Takeout export is complete
+- Refresh download URL if authentication fails
 
-## Error Handling
+## ?? Contributing
 
-- Validates all input parameters
-- Handles network errors gracefully
-- Skips already downloaded files when using --continue
-- Prevents invalid index ranges
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Contributing
+## ?? License
 
-Feel free to submit issues and enhancement requests.
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## ?? Contact
+
+Your Name - your.email@example.com
+
+Project Link: [https://github.com/yourusername/google-takeout-downloader](https://github.com/yourusername/google-takeout-downloader)
+
+---
+
+**Disclaimer**: This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.

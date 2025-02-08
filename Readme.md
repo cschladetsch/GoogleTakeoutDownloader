@@ -30,6 +30,26 @@ pip3 install requests
 chmod +x download_takeout.py
 ```
 
+## Configuration
+
+Before using the script, you need to configure it for your Google account and Takeout URLs:
+
+1. Open one of your Google Takeout download URLs in a browser. It should look something like:
+```
+https://accounts.google.com/AccountChooser?continue=https://takeout.google.com/settings/takeout/download?j%3Daad05205-2695-41f5-a4d7-b92d9a095d5e%26i%3D52&Email=example@gmail.com
+```
+
+2. Open `download_takeout.py` and modify these values in the `create_url()` function:
+```python
+job_id = "aad05205-2695-41f5-a4d7-b92d9a095d5e"  # Extract from your URL
+email = "example@gmail.com"  # Your Google email
+```
+
+3. If your Takeout export has a different number of files, update:
+```python
+MAX_FILES = 277  # Set to your total number of files
+```
+
 ## Usage
 
 ### Basic Usage
@@ -79,10 +99,11 @@ Example: `takeout-20250206T053943Z-016.zip`
 
 ## Notes
 
-- Maximum supported file index is 277
-- The script requires you to be logged into your Google account
+- Maximum supported file index is configurable (default 277)
+- The script requires you to be logged into your Google account in your browser
 - Downloads are saved with timestamps in the filename
 - The script includes error handling and will skip failed downloads
+- URLs expire after some time - if downloads fail, you may need to get a new URL from Google Takeout and update the job_id
 
 ## Error Handling
 

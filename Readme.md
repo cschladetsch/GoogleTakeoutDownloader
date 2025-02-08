@@ -113,12 +113,3 @@ Example: `takeout-20250206T053943Z-016.zip`
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contact
-
-Your Name - your.email@example.com
-
-Project Link: [https://github.com/yourusername/google-takeout-downloader](https://github.com/yourusername/google-takeout-downloader)
-
----
-
-**Disclaimer**: This tool is not affiliated with Google. Use responsibly and respect Google's terms of service.
